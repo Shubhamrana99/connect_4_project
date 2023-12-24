@@ -1,18 +1,33 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import GameCircle from "./GameCircle";
 import "../Game.css";
 import Header from "./Header";
 import Footer from "./Footer";
-import { IsWinner } from "./Winner";
-
-const No_Play = 0;
-const Player_1 = 1;
-const Player_2 = 2;
+import { IsWinner, isDraw } from "./Winner";
+import {
+  Player_1,
+  No_Play,
+  Player_2,
+  Game_State_Play,
+  Game_State_Win,
+  Game_State_Draw,
+} from "../Constants";
 
 const GameBoard = () => {
   const [gameBoard, setGameBoard] = useState(Array(16).fill(No_Play));
-
   const [currentPlayer, setCurrentPlayer] = useState(Player_1);
+  const [gameState, setGameState] = useState(Game_State_Play);
+  const [winPlayer, setWinPlayer] = useState(No_Play);
+
+  useEffect(() => {
+    initGame();
+  }, []);
+
+  const initGame = () => {
+    setGameBoard(Array(16).fill(No_Play));
+    setCurrentPlayer(Player_1);
+    setGameState(Game_State_Play);
+  };
 
   const initialBoard = () => {
     const board = [];
@@ -23,12 +38,18 @@ const GameBoard = () => {
   };
 
   const onCircleClicked = (id) => {
-    // const board = [...gameBoard];
-    // board[id] = currentPlayer;
-    // setGameBoard(board);
+    if (gameBoard[id] !== No_Play) return;
+
+    if (gameState !== Game_State_Play) return;
 
     if (IsWinner(gameBoard, id, currentPlayer)) {
-      console.log("winner is :", currentPlayer);
+      setGameState(Game_State_Win);
+      setWinPlayer(currentPlayer);
+    }
+
+    if (isDraw(gameBoard, id, currentPlayer)) {
+      setGameState(Game_State_Draw);
+      setWinPlayer(No_Play);
     }
 
     setGameBoard((pre) =>
@@ -59,9 +80,13 @@ const GameBoard = () => {
 
   return (
     <>
-      <Header currentPlayer={currentPlayer} />
+      <Header
+        currentPlayer={currentPlayer}
+        gameState={gameState}
+        winPlayer={winPlayer}
+      />
       <div className="gameBoard">{initialBoard()}</div>
-      <Footer />
+      <Footer onClickEvent={initGame} />
     </>
   );
 };

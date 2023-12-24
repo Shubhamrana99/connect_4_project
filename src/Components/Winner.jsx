@@ -28,3 +28,13 @@ export const IsWinner = (gameBoard, circleID, currentPlayer) => {
   }
   return false;
 };
+
+export const isDraw = (gameBoard, circleID, currentPlayer) => {
+  const board = [...gameBoard];
+  board[circleID] = currentPlayer;
+
+  let count = board.reduce((acc, curr) => acc + (curr === 0), 0);
+
+  console.log(`count${count}`);
+  return count === 0;
+};

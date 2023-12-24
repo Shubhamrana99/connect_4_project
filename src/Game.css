@@ -3,12 +3,6 @@ body {
   font-family: "Arial", sans-serif;
 }
 .app-container {
-  /* width: 800px;
-  height: 800px;
-  position: absolute;
-  top: 50%;
-  left: 10%;
-  margin-left: -400px; */
 }
 
 .header-container {
@@ -23,14 +17,14 @@ body {
   left: 50%;
   top: 90px;
   height: 80px;
-  width: 300px;
-  margin-left: -120px;
+  width: 350px;
+  margin-left: -150px;
 }
 
 .header-container .header-text {
   font-size: 30px;
   font-weight: 700;
-  width: 200px;
+  width: 250px;
   margin: 0;
   position: absolute;
   top: 25%;
